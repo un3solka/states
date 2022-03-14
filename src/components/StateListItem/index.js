@@ -1,13 +1,14 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 
-const Item = ({ item }) => {
+const StateListItem = ({ item, onPress }) => {
   const { state, population, counties } = item;
-  const onPress = () => {
-    console.log("Details");
+  const onPressHandler = () => {
+    onPress(item);
   };
+
   return (
-    <TouchableOpacity onPress={onPress} style={styles.item}>
+    <TouchableOpacity onPress={onPressHandler} style={styles.item}>
       <Text style={styles.title}>{state}</Text>
       <Text style={styles.text}>Population: {population}</Text>
       <Text style={styles.text}>Counties: {counties}</Text>
@@ -30,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Item;
+export default StateListItem;

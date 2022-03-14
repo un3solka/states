@@ -1,29 +1,31 @@
 import React, { useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, FlatList } from "react-native";
 import { useSelector } from "react-redux";
-import StateListItem from "../StateListItem";
+import CountiesListItem from "../CountiesListItem";
 
-const StateList = ({ onPressItem }) => {
-  const loading = useSelector((state) => state.appData.loading);
-  const states = useSelector((state) => state.appData.states);
+const CountiesList = ({ find }) => {
+  const loading = useSelector((state) => state.appData.loadingDetails);
+  const counties = useSelector((state) => state.appData.counties);
 
   if (loading) {
     return (
       <View style={styles.container}>
-        <Text>Loading...</Text>
+        <Text>Loading details...</Text>
       </View>
     );
   }
-  const renderItem = ({ item }) => (
-    <StateListItem item={item} onPress={onPressItem} />
-  );
+  const renderItem = ({ item }) => <CountiesListItem item={item} />;
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={states}
+        data={
+          find
+            ? counties.filter((item) => item.county.search(find) !== -1)
+            : counties
+        }
         renderItem={renderItem}
-        keyExtractor={(item) => item.state}
+        keyExtractor={(item) => item.county}
       />
     </SafeAreaView>
   );
@@ -38,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StateList;
+export default CountiesList;
